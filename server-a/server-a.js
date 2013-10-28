@@ -6,6 +6,12 @@ Items.allow({
   }
 });
 
+Meteor.methods({
+  delete: function() {
+    Items.remove({});
+  }
+});
+
 Items.find().observe({
   added: function(item) {
     console.log(item);
@@ -14,9 +20,13 @@ Items.find().observe({
 
 if (Meteor.isClient) {
   Template.test.events({
-    'click a': function (e) {
+    'click a.insert': function (e) {
       e.preventDefault();
       Items.insert({ test: new Date() });
+    },
+    'click a.delete': function (e) {
+      e.preventDefault();
+      Meteor.call('delete');
     }
   });
 }
